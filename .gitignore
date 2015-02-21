@@ -61,3 +61,4 @@ crashlytics-build.properties
 
 # Bower
 web/bower_components
+src/example/RestAppStarter.java

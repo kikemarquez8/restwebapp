@@ -91,7 +91,6 @@ public class JSONBuilder {
 				for (int i = 1; i <= numcolumn; i++) {
 					String nombre = rsmd.getColumnName(i);
 					String tipo = rs.getObject(i).getClass().getSimpleName();
-					System.out.print(tipo);
 					if (tipo.equalsIgnoreCase("Integer")) {
 						Integer si = (Integer) rs.getObject(i);
 						rows[xba].addProperty(nombre, si);
