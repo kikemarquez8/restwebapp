@@ -1,0 +1,21 @@
+.row{
+    border-width: 20px;
+    color: aquamarine;
+    padding-left: 20px;
+}
+.price{
+    padding-left: 65%;
+    color: #658b80;
+}
+.qt{
+    padding-left: 15%;
+    color: #8b2822;
+}
+ul  {
+    list-style-type: none;
+}
+li{
+    border-bottom: thin;
+    border-bottom-color: #020202;
+    border-style: groove;
+}
