@@ -15,15 +15,15 @@ public class RestAppStarter {
 	public static DataSource dataSource;
 	private static PoolProperties p;
 
-	private static final String BASE_URI = "http://localhost:9998x	/";
+	private static final String BASE_URI = "http://localhost:9998/";
 
 
 	public static void main(String[] args) throws IOException {
 		p = new PoolProperties();
-		p.setUrl("jdbc:postgresql://localhost:5432/tienda");
+		p.setUrl("jdbc:postgresql://localhost:5432/rest_db");
 		p.setDriverClassName("org.postgresql.Driver");
 		p.setUsername("postgres");
-		p.setPassword("7413246");
+		p.setPassword("masterkey");
 		p.setJmxEnabled(true);
 		p.setTestWhileIdle(false);
 		p.setTestOnBorrow(true);
@@ -45,11 +45,11 @@ public class RestAppStarter {
 		dataSource = new DataSource();
 		dataSource.setPoolProperties(p);
 
-		HttpServer server = HttpServerFactory.create("http://localhost:9998/");
+		HttpServer server = HttpServerFactory.create(BASE_URI);
 		server.start();
 
 		System.out.println("Server running");
-		System.out.println("Visit: http://localhost:9998/clients/1");
+		System.out.println(BASE_URI+ "client/1");
 		System.out.println("Hit return to stop...");
 		System.in.read();
 		System.out.println("Stopping server");
