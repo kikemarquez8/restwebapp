@@ -5,7 +5,7 @@ package data_models;
  */
 public class Product {
 	private int id, quantity;
-	private float salePrice, purchasePrice;
+	private Double salePrice, purchasePrice;
 	private String name;
 
 	public int getId() {
@@ -24,19 +24,19 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public float getSalePrice() {
+	public Double getSalePrice() {
 		return salePrice;
 	}
 
-	public void setSalePrice(float salePrice) {
+	public void setSalePrice(Double salePrice) {
 		this.salePrice = salePrice;
 	}
 
-	public float getPurchasePrice() {
+	public Double getPurchasePrice() {
 		return purchasePrice;
 	}
 
-	public void setPurchasePrice(float purchasePrice) {
+	public void setPurchasePrice(Double purchasePrice) {
 		this.purchasePrice = purchasePrice;
 	}
 
