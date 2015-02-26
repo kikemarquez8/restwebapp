@@ -12,7 +12,7 @@ angular.module('angularApp', [])
 					"sp_product": dataStored[3].value,
 					"qt_product": dataStored[4].value
 				},
-				"header": {
+				"headers": {
 					"Content-Type": "application/json"
 				}
 			};
@@ -28,8 +28,7 @@ angular.module('angularApp', [])
 				$http(request).success(function (data) {
 					window.alert(data);
 				}).error(function (error) {
-						window.alert(error);
-					}
-				);
+					window.alert(error);
+				});
 			};
 		}]);
