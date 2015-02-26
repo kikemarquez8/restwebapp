@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="angularApp">
+<head lang="en">
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="libs/angular/angular.min.js"></script>
+	<script src="controller/inventoryController.js"></script>
+</head>
+<body ng-controller="InventoryController">
+<h1>Insert a product</h1>
+
+<p>
+	<!--todo: mask needed to use normal text-->
+	<label for="id">Product ID</label>
+	<input ng-model="id" type="number" id="id"/>
+</p>
+<p>
+	<label for="name">Product Name</label>
+	<input ng-model="na" type="text" id="name"/>
+	<!--<button ng-click="send()">Login</button>-->
+</p>
+<p>
+	<label for="purchasePrice">Product Purchase Price</label>
+	<input ng-model="pp" type="text" id="purchasePrice"/>
+</p>
+<p>
+	<label for="salePrice">Product Sale Price</label>
+	<input ng-model="sp" type="text" id="salePrice"/>
+</p>
+<p>
+	<label for="quantity">Product Quantity</label>
+	<input ng-model="qt" type="number" id="quantity"/>
+</p>
+
+
+<button ng-click="sendProduct()">Insert the client</button>
+<script>
+
+</script>
+</body>
+</html>

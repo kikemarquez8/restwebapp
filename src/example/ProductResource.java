@@ -89,7 +89,7 @@ public class ProductResource {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Response.status(200).entity("succes").build();
+		return Response.status(200).entity("success").build();
 
 	}
 
