@@ -6,11 +6,11 @@ angular.module('angularApp', [])
 				"method": "POST",
 				"url": "http://localhost:9998/product/create",
 				"data": {
-					"id_product": dataStored[0].value,
-					"na_product": dataStored[1].value,
-					"pp_product": dataStored[2].value,
-					"sp_product": dataStored[3].value,
-					"qt_product": dataStored[4].value
+					"id_product": parseInt(dataStored[0].value),
+					"na_product": dataStored[1].value + "",
+					"pp_product": parseFloat(dataStored[2].value),
+					"sp_product": parseFloat(dataStored[3].value),
+					"qt_product": parseInt(dataStored[4].value)
 				},
 				"headers": {
 					"Content-Type": "application/json"
@@ -19,11 +19,11 @@ angular.module('angularApp', [])
 
 			$scope.sendProduct = function () {
 				dataStored = document.querySelectorAll("input");
-				request.data.id_product = dataStored[0].value;
-				request.data.na_product = dataStored[1].value;
-				request.data.pp_product = dataStored[2].value;
-				request.data.sp_product = dataStored[3].value;
-				request.data.qt_product = dataStored[4].value;
+				request.data.id_product = parseInt(dataStored[0].value);
+				request.data.na_product = dataStored[1].value + "";
+				request.data.pp_product = parseFloat(dataStored[2].value);
+				request.data.sp_product = parseFloat(dataStored[3].value);
+				request.data.qt_product = parseInt(dataStored[4].value);
 
 				$http(request).success(function (data) {
 					window.alert(data);

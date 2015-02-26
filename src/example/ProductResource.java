@@ -39,6 +39,7 @@ public class ProductResource {
 			return Response.status(200).entity(rspnse.JSON()).build();
 		}
 	}
+
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
