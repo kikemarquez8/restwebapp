@@ -73,8 +73,8 @@ public class ProductResource {
 			JSONObject a = new JSONObject(info);
 			novo.setId((Integer) a.get("id_product"));
 			novo.setName((String) a.get("na_product"));
-			novo.setPurchasePrice((Integer) a.get("pp_product"));
-			novo.setSalePrice((Integer) a.get("sp_product"));
+			novo.setPurchasePrice((Double) a.get("pp_product"));
+			novo.setSalePrice((Double) a.get("sp_product"));
 			novo.setQuantity((Integer) a.get("qt_product"));
 		} catch (JSONException e) {
 			JSONBuilder a = new JSONBuilder();
@@ -104,11 +104,10 @@ public class ProductResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-
 			product.setId((Integer) b.get("id_product"));
 			product.setName((String) b.get("na_product"));
-			product.setPurchasePrice((Integer) b.get("pp_product"));
-			product.setSalePrice((Integer) b.get("sp_product"));
+			product.setPurchasePrice((Double) b.get("pp_product"));
+			product.setSalePrice((Double) b.get("sp_product"));
 			product.setQuantity((Integer) b.get("qt_product"));
 			sta.executeUpdate("UPDATE product SET id_product=" + product.getId() + "," + "na_product=" + "'" + product.getName() + "'" + "," + "pp_product=" + product.getPurchasePrice() + "," + "sp_product=" + product.getSalePrice() + "," + "qt_product=" + product.getQuantity() + " WHERE id_product=" + product.getId());
 			a.addProperty("message", "success");
