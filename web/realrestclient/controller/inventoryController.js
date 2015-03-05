@@ -4,11 +4,11 @@ var request = {
 	"method": "POST",
 	"url": "http://localhost:9998/product/create",
 	"data": {
-		"id_product": 7 ,//parseInt(dataStored[0].value),
-		"na_product": "Macbookpro", //dataStored[1].value,
-		"pp_product": 400.04, //parseFloat(dataStored[2].value),
-		"sp_product": 600.04, //parseFloat(dataStored[3].value),
-		"qt_product": 90//parseInt(dataStored[4].value)
+		"id_product": null ,
+		"na_product": null,
+		"pp_product": null,
+		"sp_product": null,
+		"qt_product": null
 	},
 	"headers": {
 		"Content-Type": "application/json"
@@ -17,34 +17,24 @@ var request = {
 angular.module('angularApp', [])
 	.controller('InventoryController', ['$scope', '$http',
 		function ($scope, $http) {
-			//var dataStored = document.querySelectorAll("input");
-			//var request = {
-			//	"method": "POST",
-			//	"url": "http://localhost:9998/product/create",
-			//	"data": {
-			//		"id_product": parseInt(dataStored[0].value),
-			//		"na_product": dataStored[1].value + "",
-			//		"pp_product": parseFloat(dataStored[2].value),
-			//		"sp_product": parseFloat(dataStored[3].value),
-			//		"qt_product": parseInt(dataStored[4].value)
-			//	},
-			//	"headers": {
-			//		"Content-Type": "application/json"
-			//	}
-			//};
-
 			$scope.sendProduct = function () {
-				//dataStored = document.querySelectorAll("input");
-				//request.data.id_product = parseInt(dataStored[0].value);
-				//request.data.na_product = dataStored[1].value + "";
-				//request.data.pp_product = parseFloat(dataStored[2].value);
-				//request.data.sp_product = parseFloat(dataStored[3].value);
-				//request.data.qt_product = parseInt(dataStored[4].value);
-
+				request.data.id_product = parseInt(document.getElementById('id').value);
+				request.data.na_product = document.getElementById('name').value;
+				request.data.pp_product = parseFloat(document.getElementById('purchasePrice').value);
+				request.data.sp_product = parseFloat(document.getElementById('salePrice').value);
+				request.data.qt_product = parseInt(document.getElementById('quantity').value);
+				console.log(request.data);
 				$http(request).success(function (data) {
-					window.alert(data);
+					console.log(data);
 				}).error(function (error) {
-					window.alert(error);
+					console.log(error);
 				});
 			};
 		}]);
+
+function turnfloat(n){
+	if(n.indexOf("."==-1)){
+		return n +".00";
+	}
+	else return n;
+}

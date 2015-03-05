@@ -68,29 +68,31 @@ public class ProductResource {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response setProduct(String info) {
-		System.out.println(info);
 		Product novo = new Product();
+		JSONBuilder rs = new JSONBuilder();
 		try {
 			JSONObject a = new JSONObject(info);
 			novo.setId((Integer) a.get("id_product"));
 			novo.setName((String) a.get("na_product"));
-			novo.setPurchasePrice((Double) a.get("pp_product"));
-			novo.setSalePrice((Double) a.get("sp_product"));
+			novo.setPurchasePrice((Double) ((Integer) a.get("pp_product")+0.00));
+			novo.setSalePrice((Double)((Integer) a.get("sp_product")+0.00));
 			novo.setQuantity((Integer) a.get("qt_product"));
-		} catch (JSONException e) {
-			JSONBuilder a = new JSONBuilder();
-			a.addProperty("message", "bad formatted JSON");
-			a.build();
-			return Response.status(200).entity(a.JSON()).build();
-		}
-		try {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			sta.execute("INSERT INTO product VALUES(" + novo.getId() + "," + "'" + novo.getName() + "'" + "," + novo.getPurchasePrice() + "," + novo.getSalePrice() + "," + novo.getQuantity() + ")");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			rs.addProperty("message","succes");
+			rs.build();
+		} catch (SQLException |JSONException e) {
+			if(e instanceof  JSONException) {
+				rs.addProperty("message", "bad formatted JSON");
+				rs.build();
+			}else{
+				rs.addProperty("message","SQL Exception");
+				rs.build();
+			}
+		}finally {
+			return Response.status(200).entity(rs.JSON()).build();
 		}
-		return Response.status(200).entity("success").build();
 
 	}
 
