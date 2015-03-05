@@ -31,10 +31,3 @@ angular.module('angularApp', [])
 				});
 			};
 		}]);
-
-function turnfloat(n){
-	if(n.indexOf("."==-1)){
-		return n +".00";
-	}
-	else return n;
-}
