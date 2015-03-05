@@ -82,6 +82,7 @@ public class ProductResource {
 			sta.execute("INSERT INTO product VALUES(" + novo.getId() + "," + "'" + novo.getName() + "'" + "," + novo.getPurchasePrice() + "," + novo.getSalePrice() + "," + novo.getQuantity() + ")");
 			rs.addProperty("message","succes");
 			rs.build();
+			con.close();
 		} catch (SQLException |JSONException e) {
 			if(e instanceof  JSONException) {
 				rs.addProperty("message", "bad formatted JSON");
