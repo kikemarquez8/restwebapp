@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import example.JSONBuilder;
+import sun.tools.jstat.ParserException;
+
 /**
  * Created by administrator on 2/8/15.
  */
@@ -24,30 +26,29 @@ public class PurchaseResource {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPurchase(@PathParam("id") int id) {
+		JSONBuilder rspnse = new JSONBuilder();
 		try {
 			Connection connection = RestAppStarter.dataSource.getConnection();
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM purchase WHERE id_purchase = " + id);
-			JSONBuilder rspnse = new JSONBuilder();
 			if (!resultSet.next()) {
 				rspnse.addProperty("message", "Not Found");
-				rspnse.build();
-				return Response.status(200).entity(rspnse.JSON()).build();
 			} else {
 				rspnse.addProperty(resultSet, "purchaseinf");
-				rspnse.build();
-				return Response.status(200).entity(rspnse.JSON()).build();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			rspnse.addProperty("message","SQL Exception");
+		}finally {
+			rspnse.build();
+			return Response.status(200).entity(rspnse.JSON()).build();
 		}
-		return null;
 	}
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response setPurchase(String info) throws ParseException{
+	public Response setPurchase(String info) {
 		System.out.println(info);
+		JSONBuilder rs = new JSONBuilder();
 		SimpleDateFormat date = new SimpleDateFormat("dd-mm-yyyy");
 		Purchase novo = new Purchase();
 		try {
@@ -55,22 +56,24 @@ public class PurchaseResource {
 			novo.setId((Integer) a.get("id_purchase"));
 			novo.setDate(date.parse((String) a.get("da_sale")));
 			novo.setIdSupplier((Integer) a.get("id_supplier"));
-		} catch(JSONException e){
-			JSONBuilder a = new JSONBuilder();
-			a.addProperty("message","bad formatted JSON");
-			a.build();
-			return Response.status(200).entity(a.JSON()).build();
-		}
-		try {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			sta.execute("INSERT INTO purchase VALUES(" + novo.getId() + "," +"'"+ novo.getDate() +"'"+ "," + novo.getIdSupplier() + ")");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			rs.addProperty("message","succes");
+		} catch (SQLException | ParseException | JSONException e) {
+			if(e instanceof JSONException){
+				rs.addProperty("message","bad formatted JSON");
+			}else if(e instanceof  ParseException){
+				rs.addProperty("message","not properly parsed JSON");
+			}else{
+				rs.addProperty("message","SQLException");
+			}
+		}finally{
+			rs.build();
+			return Response.status(200).entity(rs.JSON()).build();
 		}
-		return Response.status(200).entity("succes").build();
-
 	}
+
 	@PUT
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -88,12 +91,11 @@ public class PurchaseResource {
 			sta.executeUpdate("UPDATE purchase SET id_purchase=" + purchase.getId() + "," + "da_purchase=" + "'" + purchase.getDate() + "'" + "," + "id_supplier=" + purchase.getIdSupplier() + " WHERE id_purchase=" + purchase.getId());
 			a.addProperty("message", "success");
 			con.close();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			a.addProperty("message", "bad formatted JSON");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			a.addProperty("message", "SQL exception");
+		} catch (SQLException | JSONException e) {
+			if(e instanceof  SQLException)
+				a.addProperty("message", "SQL exception");
+			else
+				a.addProperty("message", "bad formatted JSON");
 		} finally {
 			a.build();
 			return Response.status(200).entity(a.JSON()).build();
