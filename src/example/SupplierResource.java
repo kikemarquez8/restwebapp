@@ -46,27 +46,24 @@ public class SupplierResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response setSupplier(String info) {
 		System.out.println(info);
+		JSONBuilder rsp = new JSONBuilder();
 		Supplier novo = new Supplier();
 		try {
 			JSONObject a = new JSONObject(info);
-			novo.setId((Integer) a.get("id_supplier"));
-			novo.setName((String) a.get("na_supplier"));
-			novo.setZip((Integer) a.get("zip_supplier"));
-		} catch(JSONException e){
-			JSONBuilder a = new JSONBuilder();
-			a.addProperty("message","bad formatted JSON");
-			a.build();
-			return Response.status(200).entity(a.JSON()).build();
-		}
-		try {
+			novo.setId(Integer.parseInt( a.getString("id_supplier")));
+			novo.setName(a.getString("na_supplier"));
+			novo.setZip(Integer.parseInt(a.getString("zip_supplier")));
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
-			sta.execute("INSERT INTO supplier VALUES(" + novo.getId() + "," +"'"+ novo.getName() +"'"+ "," + novo.getZip() + ")");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			sta.execute("INSERT INTO supplier VALUES(" + novo.getId() + "," + "'" + novo.getName() + "'" + "," + novo.getZip() + ")");
+			rsp.addProperty("message","success");
+		} catch (SQLException | JSONException e) {
+			rsp.addProperty("message","bad formatted JSON");
 		}
-		return Response.status(200).entity("succes").build();
-
+		finally {
+			rsp.build();
+			return Response.status(200).entity(rsp.JSON()).build();
+		}
 	}
 	@PUT
 	@Path("/update")
@@ -78,18 +75,17 @@ public class SupplierResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-			supplier.setId((Integer) b.get("id_supplier"));
-			supplier.setName((String) b.get("na_supplier"));
-			supplier.setZip((Integer) b.get("zip_supplier"));
+			supplier.setId(Integer.parseInt(b.getString("id_supplier")));
+			supplier.setName(b.getString("na_supplier"));
+			supplier.setZip(Integer.parseInt(b.getString("zip_supplier")));
 			sta.executeUpdate("UPDATE supplier SET id_supplier=" + supplier.getId() + "," + "na_supplier=" + "'" + supplier.getName() + "'" + "," + "zip_supplier=" + supplier.getZip() + " WHERE id_supplier=" + supplier.getId());
 			a.addProperty("message", "success");
 			con.close();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			a.addProperty("message", "bad formatted JSON");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			a.addProperty("message", "SQL exception");
+		} catch (JSONException | SQLException e) {
+			if(e instanceof  JSONException)
+				a.addProperty("message", "bad formatted JSON");
+			if(e instanceof  SQLException)
+				a.addProperty("message", "SQL exception");
 		} finally {
 			a.build();
 			return Response.status(200).entity(a.JSON()).build();

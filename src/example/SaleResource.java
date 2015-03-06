@@ -107,6 +107,7 @@ public class SaleResource {
 		}
 
 	}
+
 	@PUT
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -118,18 +119,17 @@ public class SaleResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-			sale.setId((Integer) b.get("id_sale"));
+			sale.setId(Integer.parseInt(b.getString("id_sale")));
 			sale.setDate(date.parse((String) b.get("da_sale")));
-			sale.setIdClient((Integer) b.get("id_client"));
+			sale.setIdClient(Integer.parseInt(b.getString("id_client")));
 			sta.executeUpdate("UPDATE sale SET id_sale=" + sale.getId() + "," + "da_sale=" + "'" + sale.getDate() + "'" + "," + "id_client=" + sale.getIdClient() + " WHERE id_sale=" + sale.getId());
 			a.addProperty("message", "success");
 			con.close();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			a.addProperty("message", "bad formatted JSON");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			a.addProperty("message", "SQL exception");
+		} catch (JSONException | SQLException e) {
+			if(e instanceof  JSONException)
+				a.addProperty("message", "bad formatted JSON");
+			else
+				a.addProperty("message", "SQL exception");
 		} finally {
 			a.build();
 			return Response.status(200).entity(a.JSON()).build();

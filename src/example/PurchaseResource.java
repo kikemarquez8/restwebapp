@@ -51,9 +51,9 @@ public class PurchaseResource {
 		Purchase novo = new Purchase();
 		try {
 			JSONObject a = new JSONObject(info);
-			novo.setId((Integer) a.get("id_purchase"));
-			novo.setDate(date.parse((String) a.get("da_sale")));
-			novo.setIdSupplier((Integer) a.get("id_supplier"));
+			novo.setId(Integer.parseInt(a.getString("id_purchase")));
+			novo.setDate(date.parse(a.getString("da_sale")));
+			novo.setIdSupplier(Integer.parseInt(a.getString("id_supplier")));
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			sta.execute("INSERT INTO purchase VALUES(" + novo.getId() + "," +"'"+ novo.getDate() +"'"+ "," + novo.getIdSupplier() + ")");
@@ -83,9 +83,9 @@ public class PurchaseResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-			purchase.setId((Integer) b.get("id_purchase"));
+			purchase.setId(Integer.parseInt(b.getString("id_purchase")));
 			purchase.setDate(date.parse((String) b.get("da_purchase")));
-			purchase.setIdSupplier((Integer) b.get("id_supplier"));
+			purchase.setIdSupplier(Integer.parseInt(b.getString("id_supplier")));
 			sta.executeUpdate("UPDATE purchase SET id_purchase=" + purchase.getId() + "," + "da_purchase=" + "'" + purchase.getDate() + "'" + "," + "id_supplier=" + purchase.getIdSupplier() + " WHERE id_purchase=" + purchase.getId());
 			a.addProperty("message", "success");
 			con.close();
