@@ -80,6 +80,7 @@ angular.module('angularApp', [])
 
 			var processSale = function (data) {
 				var captions = document.getElementById('namesale');
+				$scope.clearTable();
 				var table = document.getElementsByClassName('table')[0];
 
 				if (data.info_sale != null) {
@@ -121,6 +122,9 @@ angular.module('angularApp', [])
 			};
 
 			$scope.clearTable = function () {
+				var caption =document.getElementById('namesale');
+				if(caption)
+					caption.innerHTML='';
 				var table = document.querySelectorAll("table")[0];
 				var rows = table.rows.length;
 
