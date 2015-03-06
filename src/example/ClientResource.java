@@ -54,20 +54,20 @@ public class ClientResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject jsonObject = new JSONObject(info);
-			client.setId((Integer) jsonObject.get("id_client"));
-			client.setFirstMame((String) jsonObject.get("na_client"));
-			client.setLastName((String) jsonObject.get("la_client"));
-			client.setCi((Integer) jsonObject.get("ci_client"));
+			client.setId(Integer.parseInt(jsonObject.getString("id_client")));
+			client.setFirstMame(jsonObject.getString("na_client"));
+			client.setLastName(jsonObject.getString("la_client"));
+			client.setCi(Integer.parseInt(jsonObject.getString("ci_client")));
 			sta.executeUpdate("INSERT INTO client VALUES(" + client.getId() + "," + "'" + client.getFirstMame() + "'" + "," + "'" + client.getLastName() + "'" + "," + client.getCi() + ")");
 			con.close();
 			a.addProperty("message", "success");
 			a.build();
-		} catch (JSONException e) {
-			a.addProperty("message", "bad formatted JSON");
-		} catch (SQLException e) {
-			a.addProperty("message", "sql exception");
-			e.printStackTrace();
-		} finally {
+		}  catch (JSONException | SQLException e) {
+			if(e instanceof JSONException)
+				a.addProperty("message", "bad formatted JSON");
+			else
+				a.addProperty("message", "SQL exception");
+		}  finally {
 			a.build();
 			return Response.status(200).entity(a.JSON()).build();
 		}
@@ -84,20 +84,18 @@ public class ClientResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-
-			client.setId((Integer) b.get("id_client"));
-			client.setFirstMame((String) b.get("na_client"));
-			client.setLastName((String) b.get("la_client"));
-			client.setCi((Integer) b.get("ci_client"));
+			client.setId(Integer.parseInt(b.getString("id_client")));
+			client.setFirstMame(b.getString("na_client"));
+			client.setLastName(b.getString("la_client"));
+			client.setCi(Integer.parseInt(b.getString("ci_client")));
 			sta.executeUpdate("UPDATE client SET id_client=" + client.getId() + "," + "na_client=" + "'" + client.getFirstMame() + "'" + "," + "la_client=" + "'" + client.getLastName() + "'" + "," + "ci_client=" + client.getCi() + " WHERE id_client=" + client.getId());
 			a.addProperty("message", "success");
 			con.close();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			a.addProperty("message", "bad formatted JSON");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			a.addProperty("message", "SQL exception");
+		} catch (JSONException | SQLException e) {
+			if(e instanceof JSONException)
+				a.addProperty("message", "bad formatted JSON");
+			else
+				a.addProperty("message", "SQL exception");
 		} finally {
 			a.build();
 			return Response.status(200).entity(a.JSON()).build();
