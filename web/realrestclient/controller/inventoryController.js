@@ -102,14 +102,16 @@ angular.module('angularApp', [])
 
 			var processProducts = function(data){
 				var table = document.getElementsByClassName('table')[0];
-				console.log()
+				var length = table.rows.length - 1;
 				if(data.products != null){
 					for(var i= 0; i< data.products.length;i++) {
-						table.insertRow(table.rows.length);
-						table.rows[table.rows.length - 1].insertCell(0).innerHTML = data.products[i].id_product;
-						table.rows[table.rows.length - 1].insertCell(1).innerHTML = data.products[i].na_product;
-						table.rows[table.rows.length - 1].insertCell(2).innerHTML = data.products[i].sp_product;
-						table.rows[table.rows.length - 1].insertCell(3).innerHTML = data.products[i].qt_product;
+						var element = data.products[i]
+						table.insertRow(length + 1);
+						table.rows[length + 1].insertCell(0).innerHTML = element.id_product;
+						table.rows[length + 1].insertCell(1).innerHTML = element.na_product;
+						table.rows[length + 1].insertCell(2).innerHTML = element.pp_product;
+						table.rows[length + 1].insertCell(3).innerHTML = element.sp_product;
+						table.rows[length + 1].insertCell(4).innerHTML = element.qt_product;
 					}
 				}
 			}
