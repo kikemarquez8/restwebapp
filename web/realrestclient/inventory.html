@@ -58,9 +58,24 @@
 </form>
 
 <form role="form" style="width: 500px; margin-left: 15px; visibility: hidden" id="form1">
-	<div class="btn-toolbar">
-		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
-		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
+	<div>
+		<br/>
+		<label for="showProducts">Show all products</label>
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		<button type="submit" class="btn btn-primary" ng-click="getProducts()" id="showProducts">Get Sales</button>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Purchase Price</th>
+					<th>Sale Price</th>
+					<th>Quantity</th>
+				</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
 </form>
 

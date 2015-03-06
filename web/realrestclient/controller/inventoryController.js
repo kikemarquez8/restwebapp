@@ -66,28 +66,53 @@ angular.module('angularApp', [])
 				request.data.qt_product = document.getElementById('quantity').value + "";
 			};
 
-			$scope.getSales = function(){
+			$scope.getSales = function () {
 				var id = parseInt(document.getElementById('saleid').value);
-				$http.get("http://localhost:9998/product/sale/"+ id).
-					success(function(data){
+				$http.get("http://localhost:9998/product/sale/" + id).
+					success(function (data) {
 						console.log(data);
 						processSale(data);
-					}).error(function(data){
+					}).error(function (data) {
 						alert(data.message);
 					})
 			};
 
-			var processSale = function(data){
+			var processSale = function (data) {
 				var captions = document.getElementById('namesale');
 				var table = document.getElementsByClassName('table')[0];
-				if(data.info_sale != null){
-					captions.innerHTML = "Name: "+data.info_sale.na_client + " </br> Sale N: "+data.info_sale.id_sale;
-					for(var i= 0; i< data.products.length;i++) {
+
+				if (data.info_sale != null) {
+					captions.innerHTML = "Name: " + data.info_sale.na_client + " </br> Sale N: " + data.info_sale.id_sale;
+					for (var i = 0; i < data.products.length; i++) {
 						table.insertRow(table.rows.length);
 						table.rows[table.rows.length - 1].insertCell(0).innerHTML = data.products[i].id_product;
 						table.rows[table.rows.length - 1].insertCell(1).innerHTML = data.products[i].na_product;
 						table.rows[table.rows.length - 1].insertCell(2).innerHTML = data.products[i].qt_product;
 					}
+				}
+			};
+
+			$scope.getProducts = function () {
+				$http.get("http://localhost:9998/product/all").success(function (data) {
+					console.log(data);
+					processProducts(data);
+				}).error();
+			};
+
+			var processProducts = function (data) {
+				var table = document.querySelectorAll("table")[0];
+
+				if (data.products != null) {
+					var length = data.products.length - 1;
+
+					data.products.forEach(function (element) {
+						table.insertRow(data.products.length);
+						table.rows[length].insertCell(0).innerHTML = element.id_product;
+						table.rows[length].insertCell(1).innerHTML = element.na_product;
+						table.rows[length].insertCell(2).innerHTML = element.pp_product;
+						table.rows[length].insertCell(3).innerHTML = element.sp_product;
+						table.rows[length].insertCell(4).innerHTML = element.qt_product;
+					});
 				}
 			};
 		}]);
