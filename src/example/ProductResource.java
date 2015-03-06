@@ -30,6 +30,7 @@ public class ProductResource {
 			} else {
 				rspnse.addProperty(resultSet, "productinf");
 			}
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -52,6 +53,7 @@ public class ProductResource {
 			} else {
 				rspnse.addProperty(resultSet, "products");
 			}
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

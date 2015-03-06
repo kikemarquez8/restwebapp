@@ -27,6 +27,7 @@ public class SupplierResource {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM supplier WHERE id_supplier = " + id);
 			JSONBuilder rspnse = new JSONBuilder();
+			connection.close();
 			if (!resultSet.next()) {
 				rspnse.addProperty("message", "Not Found");
 				rspnse.build();
@@ -57,6 +58,7 @@ public class SupplierResource {
 			Statement sta = con.createStatement();
 			sta.execute("INSERT INTO supplier VALUES(" + novo.getId() + "," + "'" + novo.getName() + "'" + "," + novo.getZip() + ")");
 			rsp.addProperty("message","success");
+			con.close();
 		} catch (SQLException | JSONException e) {
 			rsp.addProperty("message","bad formatted JSON");
 		}

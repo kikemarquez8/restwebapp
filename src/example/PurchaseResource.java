@@ -34,6 +34,7 @@ public class PurchaseResource {
 			} else {
 				rspnse.addProperty(resultSet, "purchaseinf");
 			}
+			connection.close();
 		} catch (SQLException e) {
 			rspnse.addProperty("message","SQL Exception");
 		}finally {
@@ -58,6 +59,7 @@ public class PurchaseResource {
 			Statement sta = con.createStatement();
 			sta.execute("INSERT INTO purchase VALUES(" + novo.getId() + "," +"'"+ novo.getDate() +"'"+ "," + novo.getIdSupplier() + ")");
 			rs.addProperty("message","succes");
+			con.close();
 		} catch (SQLException | ParseException | JSONException e) {
 			if(e instanceof JSONException){
 				rs.addProperty("message","bad formatted JSON");

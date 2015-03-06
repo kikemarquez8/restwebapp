@@ -35,6 +35,7 @@ public class SaleResource {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM sale WHERE id_sale = " + id);
 			JSONBuilder rspnse = new JSONBuilder();
+			connection.close();
 			if (!resultSet.next()) {
 				rspnse.addProperty("message", "Not Found");
 				rspnse.build();
@@ -70,6 +71,7 @@ public class SaleResource {
 			ResultSet ber = sta.executeQuery(querysale);
 			if(ber.next())
 				sale.setIdSale((Integer) ber.getObject(1));
+			con1.close();
 			// No need for id_sale (It should be sequence value) currval gets the id value of the inserted record
 			//Updating product quantities and sale product added
 			JSONObject update_pro = new JSONObject(info);
@@ -90,6 +92,7 @@ public class SaleResource {
 					System.out.print(query);
 					Statement saleproductstatement = con.createStatement();
 					saleproductstatement.executeUpdate(query);
+					con.close();
 				}
 			}
 			res.addProperty("message","succes");
