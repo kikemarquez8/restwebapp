@@ -39,6 +39,7 @@ angular.module('angularApp', [])
 							//if the product already exists.
 							if (data.message === undefined) {
 								id.style.backgroundColor = "#d14";
+								id.style.color = "white";
 							} else {
 								id.style.backgroundColor = "steelblue";
 								id.style.color = "white";
@@ -102,6 +103,7 @@ angular.module('angularApp', [])
 			};
 
 			var processProducts = function (data) {
+				$scope.clearTable();
 				var table = document.querySelectorAll("table")[0];
 
 				if (data.products != null) {
@@ -115,6 +117,15 @@ angular.module('angularApp', [])
 						table.rows[length + 1].insertCell(3).innerHTML = element.sp_product;
 						table.rows[length + 1].insertCell(4).innerHTML = element.qt_product;
 					});
+				}
+			};
+
+			$scope.clearTable = function () {
+				var table = document.querySelectorAll("table")[0];
+				var rows = table.rows.length;
+
+				for (var i = 1; i < rows; i++) {
+					table.deleteRow(1);
 				}
 			};
 		}]);
