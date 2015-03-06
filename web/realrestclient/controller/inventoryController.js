@@ -109,11 +109,11 @@ angular.module('angularApp', [])
 						var length = table.rows.length - 1;
 
 						table.insertRow(length + 1);
-						table.rows[length].insertCell(0).innerHTML = element.id_product;
-						table.rows[length].insertCell(1).innerHTML = element.na_product;
-						table.rows[length].insertCell(2).innerHTML = element.pp_product;
-						table.rows[length].insertCell(3).innerHTML = element.sp_product;
-						table.rows[length].insertCell(4).innerHTML = element.qt_product;
+						table.rows[length + 1].insertCell(0).innerHTML = element.id_product;
+						table.rows[length + 1].insertCell(1).innerHTML = element.na_product;
+						table.rows[length + 1].insertCell(2).innerHTML = element.pp_product;
+						table.rows[length + 1].insertCell(3).innerHTML = element.sp_product;
+						table.rows[length + 1].insertCell(4).innerHTML = element.qt_product;
 					});
 				}
 			};
