@@ -56,7 +56,6 @@ public class ProductResource {
 			e.printStackTrace();
 		} finally {
 			rspnse.build();
-			System.out.print(rspnse.JSON());
 		}
 		return Response.status(200).entity(rspnse.JSON()).build();
 	}
@@ -71,8 +70,6 @@ public class ProductResource {
 		try {
 			JSONObject a = new JSONObject(info);
 			System.out.println(a.toString());
-			System.out.println(a.getString("pp_product"));
-			System.out.println(a.getString("sp_product"));
 			novo.setId(Integer.parseInt(a.getString("id_product")));
 			novo.setName(a.getString("na_product"));
 			novo.setPurchasePrice(Double.parseDouble(a.getString("pp_product")));
@@ -107,11 +104,11 @@ public class ProductResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-			product.setId(b.getInt("id_product"));
+			product.setId(Integer.parseInt(b.getString("id_product")));
 			product.setName(b.getString("na_product"));
-			product.setPurchasePrice(b.getDouble("pp_product"));
-			product.setSalePrice(b.getDouble("sp_product"));
-			product.setQuantity((b.getInt("qt_product")));
+			product.setPurchasePrice(Double.parseDouble(b.getString("pp_product")));
+			product.setSalePrice(Double.parseDouble(b.getString("sp_product")));
+			product.setQuantity(Integer.parseInt(b.getString("qt_product")));
 			sta.executeUpdate("UPDATE product SET id_product=" + product.getId() + "," + "na_product=" + "'" + product.getName() + "'" + "," + "pp_product=" + product.getPurchasePrice() + "," + "sp_product=" + product.getSalePrice() + "," + "qt_product=" + product.getQuantity() + " WHERE id_product=" + product.getId());
 			a.addProperty("message", "success");
 			con.close();
