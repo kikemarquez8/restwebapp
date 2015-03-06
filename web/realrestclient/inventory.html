@@ -15,6 +15,7 @@
 <ul class="nav nav-tabs">
 	<li class="active">
 		<a href="#" onclick="changeTab(this)" id="tab0">Insert a product</a>
+	</li>
 	<li>
 		<a href="#" onclick="changeTab(this)" id="tab1">Show all products</a>
 	</li>
@@ -89,7 +90,7 @@
 			if (as.hasOwnProperty(a) && a !== "length") {
 				if (as[a].id !== source.id) {
 					as[a].parentElement.className = "";
-					
+
 				}
 				else {
 					as[a].parentElement.className = "active";
