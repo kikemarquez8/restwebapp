@@ -96,17 +96,19 @@ angular.module('angularApp', [])
 				$http.get("http://localhost:9998/product/all").success(function (data) {
 					console.log(data);
 					processProducts(data);
-				}).error();
+				}).error(function (data) {
+					console.log(data);
+				});
 			};
 
 			var processProducts = function (data) {
 				var table = document.querySelectorAll("table")[0];
 
 				if (data.products != null) {
-					var length = data.products.length - 1;
-
 					data.products.forEach(function (element) {
-						table.insertRow(data.products.length);
+						var length = table.rows.length - 1;
+
+						table.insertRow(length + 1);
 						table.rows[length].insertCell(0).innerHTML = element.id_product;
 						table.rows[length].insertCell(1).innerHTML = element.na_product;
 						table.rows[length].insertCell(2).innerHTML = element.pp_product;
