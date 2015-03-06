@@ -50,6 +50,7 @@ public class SaleResource {
 		}
 		return null;
 	}
+
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -108,7 +109,29 @@ public class SaleResource {
 		}finally {
 			return Response.status(200).entity(res.JSON()).build();
 		}
+	}
 
+	@GET
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllSales() {
+		JSONBuilder rspnse = new JSONBuilder();
+		try {
+			Connection connection = RestAppStarter.dataSource.getConnection();
+			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM sale");
+			if (!resultSet.next()) {
+				rspnse.addProperty("message", "Not Found");
+			} else {
+				rspnse.addProperty(resultSet, "sales");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rspnse.build();
+		}
+		return Response.status(200).entity(rspnse.JSON()).build();
 	}
 
 	@PUT
