@@ -65,6 +65,7 @@ angular.module('angularApp', [])
 				request.data.sp_product = document.getElementById('salePrice').value + "";
 				request.data.qt_product = document.getElementById('quantity').value + "";
 			};
+
 			$scope.getSales = function(){
 				var id = parseInt(document.getElementById('saleid').value);
 				$http.get("http://localhost:9998/product/sale/"+ id).
@@ -74,7 +75,8 @@ angular.module('angularApp', [])
 					}).error(function(data){
 						alert(data.message);
 					})
-			}
+			};
+
 			var processSale = function(data){
 				var captions = document.getElementById('namesale');
 				var table = document.getElementsByClassName('table')[0];
@@ -87,5 +89,5 @@ angular.module('angularApp', [])
 						table.rows[table.rows.length - 1].insertCell(2).innerHTML = data.products[i].qt_product;
 					}
 				}
-			}
+			};
 		}]);
