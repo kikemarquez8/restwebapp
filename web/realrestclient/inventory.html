@@ -4,7 +4,8 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<script src="libs/angular/angular.min.js"></script>
-	<script src="libs/bootstrap/dist/js/bootstrap.min.js"> </script>
+	<script src="libs/jquery/dist/jquery.min.js"></script>
+	<script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="controller/inventoryController.js"></script>
 	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
@@ -12,46 +13,122 @@
 
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="#">Insert a product</a></li>
-	<li><a href="#">Show </a></li>
-	<li><a href="#">Mensajes</a></li>
+	<li class="active">
+		<a href="#" onclick="changeTab(this)" id="tab0">Insert a product</a>
+	</li>
+	<li>
+		<a href="#" onclick="changeTab(this)" id="tab1">Show all products</a>
+	</li>
+	<li>
+		<a href="#" onclick="changeTab(this)" id="tab2">Show all sales</a>
+	</li>
 </ul>
 
 
-<h1>Insert a product</h1>
+<form role="form" style="width: 500px; margin-left: 15px" id="form0">
+	<div class="form-group">
+		<label for="id">Product ID</label>
+		<input ng-model="id" class="form-control" type="number" id="id" ng-blur="testID(this)"
+			   placeholder="Insert the ID"/>
+	</div>
+	<div class="form-group">
+		<label for="name">Product Name</label>
+		<input ng-model="na" class="form-control" type="text" id="name"
+			   placeholder="Product name"/>
+	</div>
+	<div class="form-group">
+		<label for="purchasePrice">Product Purchase Price</label>
+		<input ng-model="pp" class="form-control" type="text" id="purchasePrice"
+			   placeholder="Purchase price"/>
+	</div>
+	<div class="form-group">
+		<label for="salePrice">Product Sale Price</label>
+		<input ng-model="sp" class="form-control" type="text" id="salePrice"
+			   placeholder="Sale price"/>
+	</div>
+	<div class="form-group">
+		<label for="quantity">Product Quantity</label>
+		<input ng-model="qt" class="form-control" type="number" id="quantity"
+			   placeholder="Number of products"/>
+	</div>
+	<div class="btn-toolbar">
+		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
+		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
+	</div>
+</form>
 
-<p>
-	<!--todo: mask needed to use normal text-->
-	<label for="id">Product ID</label>
-	<input ng-model="id" type="number" id="id"/>
-</p>
+<form role="form" style="width: 500px; margin-left: 15px; visibility: hidden" id="form1">
+	<div>
+		<br/>
+		<label for="showProducts">Show all products</label>
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		<button type="submit" class="btn btn-primary" ng-click="getProducts()" id="showProducts">Get Products</button>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Purchase Price</th>
+					<th>Sale Price</th>
+					<th>Quantity</th>
+				</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</form>
 
-<p>
-	<label for="name">Product Name</label>
-	<input ng-model="na" type="text" id="name"/>
-	<!--<button ng-click="send()">Login</button>-->
-</p>
+<form role="form" style="width:400px; visibility: hidden; margin-left: 15px" id="form2">
+	<div>
+		<label for="saleid">Sale ID</label>
+		<input ng-model="saleid" class="form-control" type="number" id="saleid"/><br/>
+		<button type="submit" class="btn btn-primary" ng-click="getSales()">Get Sales</button>
+		<div class="table-responsive">
+			<table class="table">
+				<caption id="namesale" style="font-weight: bold"></caption>
+				<thead>
+				<tr>
+					<th>ID Product</th>
+					<th>Name Product</th>
+					<th>Quantity</th>
+				</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</form>
 
-<p>
-	<label for="purchasePrice">Product Purchase Price</label>
-	<input ng-model="pp" type="text" id="purchasePrice"/>
-</p>
-
-<p>
-	<label for="salePrice">Product Sale Price</label>
-	<input ng-model="sp" type="text" id="salePrice"/>
-</p>
-
-<p>
-	<label for="quantity">Product Quantity</label>
-	<input ng-model="qt" type="number" id="quantity"/>
-</p>
-
-
-<button ng-click="sendProduct()">Insert the client</button>
 <script>
+	var tabContents = [];
+	var forms = document.querySelectorAll("form");
 
+	for (var i = 0; i < forms.length; i++) {
+		tabContents.push(forms[i]);
+	}
 
+	var changeTab = function (source) {
+		var as = document.querySelectorAll("a");
+		var currentForms = document.querySelectorAll("form");
+
+		for (var i = 0; i < currentForms.length; i++) {
+			document.body.removeChild(currentForms[i]);
+		}
+
+		for (var a in as) {
+			if (as.hasOwnProperty(a) && a !== "length") {
+				if (as[a].id !== source.id) {
+					as[a].parentElement.className = "";
+
+				}
+				else {
+					as[a].parentElement.className = "active";
+					tabContents[a].style.visibility = "visible";
+					document.body.appendChild(tabContents[a]);
+				}
+			}
+		}
+	};
 </script>
 </body>
 </html>

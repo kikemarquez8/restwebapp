@@ -62,35 +62,6 @@ public class ProductResource {
 		return Response.status(200).entity(rspnse.JSON()).build();
 	}
 
-	@GET
-	@Path("/sale/{id_sale}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProductsSale(@PathParam("id_sale") String id_sale) {
-		JSONBuilder rspnse = new JSONBuilder();
-		try {
-			Connection connection = RestAppStarter.dataSource.getConnection();
-			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet resultSet = statement.executeQuery("SELECT sale_product.id_product,product.na_product, sale_product.qt_product  FROM sale_product JOIN sale ON sale.id_sale = sale_product.id_sale JOIN client ON client.id_client = sale.id_client JOIN product ON sale_product.id_product= product.id_product WHERE sale_product.id_sale="+id_sale);
-			if (!resultSet.next()) {
-				rspnse.addProperty("message", "Not Found");
-			} else {
-				rspnse.addProperty(resultSet, "products");
-			}
-			ResultSet resultSet1 = statement.executeQuery("SELECT client.na_client,sale.id_sale  FROM sale JOIN client ON client.id_client = sale.id_client WHERE sale.id_sale="+id_sale);
-			if(!resultSet1.next()) {
-				rspnse.addProperty("message", "Not Found");
-			}
-			else {
-				rspnse.addProperty(resultSet1, "info_sale");
-			}
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			rspnse.build();
-		}
-		return Response.status(200).entity(rspnse.JSON()).build();
-	}
 
 	@POST
 	@Path("/create")
