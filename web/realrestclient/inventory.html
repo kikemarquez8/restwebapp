@@ -25,7 +25,7 @@
 </ul>
 
 
-<form role="form" style="width: 500px; margin-left: 15px" id="insert">
+<form role="form" style="width: 500px; margin-left: 15px" id="form0">
 	<div class="form-group">
 		<label for="id">Product ID</label>
 		<input ng-model="id" class="form-control" type="number" id="id" ng-blur="testID(this)"
@@ -57,7 +57,7 @@
 	</div>
 </form>
 
-<form style="width:400px;margin-left: 15px" id="getSales">
+<form style="width:400px;margin-left: 15px" id="form2">
 	<div>
 		<label for="saleid">Sale ID</label>
 		<input ng-model="saleid" class="form-control" type="number" id="saleid"/>
@@ -77,19 +77,40 @@
 	</div>
 </form>
 
-<form role="form" style="width: 500px; margin-left: 15px" id="getAll">
+<form role="form" style="width: 500px; margin-left: 15px; visibility: hidden" id="form1">
 	<div class="btn-toolbar">
 		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
 		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
 	</div>
 </form>
+
 <script>
+	var tabContents = [];
+	var forms = document.querySelectorAll("form");
+
+	for (var i = 0; i < forms.length; i++) {
+		tabContents.push(forms[i]);
+	}
+
 	var changeTab = function (source) {
 		var as = document.querySelectorAll("a");
+		var currentForms = document.querySelectorAll("form");
+
+		for (var i = 0; i < currentForms.length; i++) {
+			document.body.removeChild(currentForms[i]);
+		}
+
 		for (var a in as) {
-			if (as.hasOwnProperty(a)) {
-				if (as[a].id !== source.id) as[a].parentElement.className = "";
-				else as[a].parentElement.className = "active";
+			if (as.hasOwnProperty(a) && a !== "length") {
+				if (as[a].id !== source.id) {
+					as[a].parentElement.className = "";
+
+				}
+				else {
+					as[a].parentElement.className = "active";
+					tabContents[a].style.visibility = "visible";
+					document.body.appendChild(tabContents[a]);
+				}
 			}
 		}
 	};
