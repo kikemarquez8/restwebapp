@@ -4,7 +4,8 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<script src="libs/angular/angular.min.js"></script>
-	<script src="libs/bootstrap/dist/js/bootstrap.min.js"> </script>
+	<script src="libs/jquery/dist/jquery.min.js"></script>
+	<script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="controller/inventoryController.js"></script>
 	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
@@ -18,37 +19,37 @@
 </ul>
 
 
-<h1>Insert a product</h1>
-
-<p>
-	<!--todo: mask needed to use normal text-->
-	<label for="id">Product ID</label>
-	<input ng-model="id" type="number" id="id"/>
-</p>
-
-<p>
-	<label for="name">Product Name</label>
-	<input ng-model="na" type="text" id="name"/>
-	<!--<button ng-click="send()">Login</button>-->
-</p>
-
-<p>
-	<label for="purchasePrice">Product Purchase Price</label>
-	<input ng-model="pp" type="text" id="purchasePrice"/>
-</p>
-
-<p>
-	<label for="salePrice">Product Sale Price</label>
-	<input ng-model="sp" type="text" id="salePrice"/>
-</p>
-
-<p>
-	<label for="quantity">Product Quantity</label>
-	<input ng-model="qt" type="number" id="quantity"/>
-</p>
-
-
-<button ng-click="sendProduct()">Insert the client</button>
+<form role="form" style="width: 500px; margin-left: 15px">
+	<div class="form-group">
+		<label for="id">Product ID</label>
+		<input ng-model="id" class="form-control" type="number" id="id" ng-blur="testID(this)"
+			   placeholder="Insert the ID"/>
+	</div>
+	<div class="form-group">
+		<label for="name">Product Name</label>
+		<input ng-model="na" class="form-control" type="text" id="name"
+			   placeholder="Product name"/>
+	</div>
+	<div class="form-group">
+		<label for="purchasePrice">Product Purchase Price</label>
+		<input ng-model="pp" class="form-control" type="text" id="purchasePrice"
+			   placeholder="Purchase price"/>
+	</div>
+	<div class="form-group">
+		<label for="salePrice">Product Sale Price</label>
+		<input ng-model="sp" class="form-control" type="text" id="salePrice"
+			   placeholder="Sale price"/>
+	</div>
+	<div class="form-group">
+		<label for="quantity">Product Quantity</label>
+		<input ng-model="qt" class="form-control" type="number" id="quantity"
+			   placeholder="Number of products"/>
+	</div>
+	<div class="btn-toolbar">
+		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
+		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
+	</div>
+</form>
 <script>
 
 
