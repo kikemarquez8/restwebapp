@@ -4,9 +4,20 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<script src="libs/angular/angular.min.js"></script>
+	<script src="libs/bootstrap/dist/js/bootstrap.min.js"> </script>
 	<script src="controller/inventoryController.js"></script>
+	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
 <body ng-controller="InventoryController">
+
+
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#">Insert a product</a></li>
+	<li><a href="#">Show </a></li>
+	<li><a href="#">Mensajes</a></li>
+</ul>
+
+
 <h1>Insert a product</h1>
 
 <p>
@@ -14,19 +25,23 @@
 	<label for="id">Product ID</label>
 	<input ng-model="id" type="number" id="id"/>
 </p>
+
 <p>
 	<label for="name">Product Name</label>
 	<input ng-model="na" type="text" id="name"/>
 	<!--<button ng-click="send()">Login</button>-->
 </p>
+
 <p>
 	<label for="purchasePrice">Product Purchase Price</label>
 	<input ng-model="pp" type="text" id="purchasePrice"/>
 </p>
+
 <p>
 	<label for="salePrice">Product Sale Price</label>
 	<input ng-model="sp" type="text" id="salePrice"/>
 </p>
+
 <p>
 	<label for="quantity">Product Quantity</label>
 	<input ng-model="qt" type="number" id="quantity"/>
@@ -35,7 +50,6 @@
 
 <button ng-click="sendProduct()">Insert the client</button>
 <script>
-
 
 
 </script>

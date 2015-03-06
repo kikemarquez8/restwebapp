@@ -24,9 +24,10 @@ angular.module('angularApp', [])
 				request.data.qt_product = document.getElementById('quantity').value + "";
 				console.log(request.data);
 				$http(request).success(function (data) {
+					alert(data.message + ", the product was inserted");
 					console.log(data);
 				}).error(function (error) {
-					console.log(error);
+					alert(error.message + ", the product couldn't be inserted");
 				});
 			};
 		}]);

@@ -1,12 +1,13 @@
 {
-  "name": "realrestclient",
-  "version": "0.0.0",
-  "homepage": "https://github.com/kikemarquez8/restwebapp",
-  "authors": [
-    "Bonsanto <xbonsx@gmail.com>"
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "angular": "~1.3.14"
-  }
+	"name": "realrestclient",
+	"version": "0.0.0",
+	"homepage": "https://github.com/kikemarquez8/restwebapp",
+	"authors": [
+		"Bonsanto <xbonsx@gmail.com>"
+	],
+	"license": "MIT",
+	"dependencies": {
+		"angular": "~1.3.14",
+		"bootstrap": "~3.3.2"
+	}
 }
