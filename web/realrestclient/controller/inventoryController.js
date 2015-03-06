@@ -68,7 +68,7 @@ angular.module('angularApp', [])
 
 			$scope.getSales = function(){
 				var id = parseInt(document.getElementById('saleid').value);
-				$http.get("http://localhost:9998/product/sale/"+ id).
+				$http.get("http://localhost:9998/sale/"+ id+"/products").
 					success(function(data){
 						console.log(data);
 						processSale(data);
