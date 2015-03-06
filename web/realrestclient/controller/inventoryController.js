@@ -66,12 +66,26 @@ angular.module('angularApp', [])
 				request.data.qt_product = document.getElementById('quantity').value + "";
 			};
 			$scope.getSales = function(){
-				var id = parseInt(document.getElementById('saleid'));
-				$http.get("http://localhost:9998/product/"+ id).
-					succes(function(data){
-
+				var id = parseInt(document.getElementById('saleid').value);
+				$http.get("http://localhost:9998/product/sale/"+ id).
+					success(function(data){
+						console.log(data);
+						processSale(data);
 					}).error(function(data){
 						alert(data.message);
 					})
+			}
+			var processSale = function(data){
+				var captions = document.getElementById('namesale');
+				var table = document.getElementsByClassName('table')[0];
+				if(data.info_sale != null){
+					captions.innerHTML = "Name: "+data.info_sale.na_client + " </br> Sale N: "+data.info_sale.id_sale;
+					for(var i= 0; i< data.products.length;i++) {
+						table.insertRow(table.rows.length);
+						table.rows[table.rows.length - 1].insertCell(0).innerHTML = data.products[i].id_product;
+						table.rows[table.rows.length - 1].insertCell(1).innerHTML = data.products[i].na_product;
+						table.rows[table.rows.length - 1].insertCell(2).innerHTML = data.products[i].qt_product;
+					}
+				}
 			}
 		}]);

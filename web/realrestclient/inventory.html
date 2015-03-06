@@ -14,13 +14,13 @@
 
 <ul class="nav nav-tabs">
 	<li class="active">
-		<a href="#" onclick="changeTab(this)" id="insertTab">Insert a product</a>
+		<a href="#" onclick="changeTab(this)" id="tab0">Insert a product</a>
 	</li>
 	<li>
-		<a href="#" onclick="changeTab(this)" id="showProductsTab">Show all products</a>
+		<a href="#" onclick="changeTab(this)" id="tab1">Show all products</a>
 	</li>
 	<li>
-		<a href="#" onclick="changeTab(this)" id="showSalesTab">Show all sales</a>
+		<a href="#" onclick="changeTab(this)" id="tab2">Show all sales</a>
 	</li>
 </ul>
 
@@ -57,11 +57,23 @@
 	</div>
 </form>
 
-<form>
+<form style="width:400px;margin-left: 15px" id="getSales">
 	<div>
 		<label for="saleid">Sale ID</label>
 		<input ng-model="saleid" class="form-control" type="number" id="saleid"/>
 		<button type="submit" class="btn btn-primary" ng-click="getSales()">Get Sales</button>
+		<div class="table-responsive">
+			<table class="table">
+				<caption id="namesale"></caption>
+				<thead>
+					<tr>
+						<th>ID Product</th>
+						<th>Name Product</th>
+						<th>Quantity</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
 </form>
 
