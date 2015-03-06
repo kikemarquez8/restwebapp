@@ -3,6 +3,7 @@ package example;
 import data_models.Product;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -11,9 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Created by administrator on 2/8/15.
- */
+
 @Path("/product")
 public class ProductResource {
 
@@ -33,11 +32,10 @@ public class ProductResource {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally{
+		} finally {
 			rspnse.build();
-			return Response.status(200).entity(rspnse.JSON()).build();
 		}
+		return Response.status(200).entity(rspnse.JSON()).build();
 	}
 
 	@GET
@@ -56,12 +54,11 @@ public class ProductResource {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally{
+		} finally {
 			rspnse.build();
 			System.out.print(rspnse.JSON());
-			return Response.status(200).entity(rspnse.JSON()).build();
 		}
+		return Response.status(200).entity(rspnse.JSON()).build();
 	}
 
 	@POST
@@ -70,31 +67,33 @@ public class ProductResource {
 	public Response setProduct(String info) {
 		Product novo = new Product();
 		JSONBuilder rs = new JSONBuilder();
+
 		try {
 			JSONObject a = new JSONObject(info);
-			novo.setId((Integer) a.get("id_product"));
-			novo.setName((String) a.get("na_product"));
-			novo.setPurchasePrice((Double) ((Integer) a.get("pp_product")+0.00));
-			novo.setSalePrice((Double)((Integer) a.get("sp_product")+0.00));
-			novo.setQuantity((Integer) a.get("qt_product"));
+			System.out.println(a.toString());
+			System.out.println(a.getString("pp_product"));
+			System.out.println(a.getString("sp_product"));
+			novo.setId(Integer.parseInt(a.getString("id_product")));
+			novo.setName(a.getString("na_product"));
+			novo.setPurchasePrice(Double.parseDouble(a.getString("pp_product")));
+			novo.setSalePrice(Double.parseDouble(a.getString("sp_product")));
+			novo.setQuantity(Integer.parseInt(a.getString("qt_product")));
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			sta.execute("INSERT INTO product VALUES(" + novo.getId() + "," + "'" + novo.getName() + "'" + "," + novo.getPurchasePrice() + "," + novo.getSalePrice() + "," + novo.getQuantity() + ")");
-			rs.addProperty("message","succes");
+			rs.addProperty("message", "success");
 			rs.build();
 			con.close();
-		} catch (SQLException |JSONException e) {
-			if(e instanceof  JSONException) {
+		} catch (SQLException | JSONException e) {
+			if (e instanceof JSONException) {
 				rs.addProperty("message", "bad formatted JSON");
 				rs.build();
-			}else{
-				rs.addProperty("message","SQL Exception");
+			} else {
+				rs.addProperty("message", "SQL Exception");
 				rs.build();
 			}
-		}finally {
-			return Response.status(200).entity(rs.JSON()).build();
 		}
-
+		return Response.status(200).entity(rs.JSON()).build();
 	}
 
 	@PUT
@@ -108,43 +107,46 @@ public class ProductResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-			product.setId((Integer) b.get("id_product"));
-			product.setName((String) b.get("na_product"));
-			product.setPurchasePrice((Double) b.get("pp_product"));
-			product.setSalePrice((Double) b.get("sp_product"));
-			product.setQuantity((Integer) b.get("qt_product"));
+			product.setId(b.getInt("id_product"));
+			product.setName(b.getString("na_product"));
+			product.setPurchasePrice(b.getDouble("pp_product"));
+			product.setSalePrice(b.getDouble("sp_product"));
+			product.setQuantity((b.getInt("qt_product")));
 			sta.executeUpdate("UPDATE product SET id_product=" + product.getId() + "," + "na_product=" + "'" + product.getName() + "'" + "," + "pp_product=" + product.getPurchasePrice() + "," + "sp_product=" + product.getSalePrice() + "," + "qt_product=" + product.getQuantity() + " WHERE id_product=" + product.getId());
 			a.addProperty("message", "success");
 			con.close();
 		} catch (JSONException e) {
 			e.printStackTrace();
-			a.addProperty("message", "bad formatted JSON");
+			a.addProperty("message", "Bad formatted JSON");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			a.addProperty("message", "SQL exception");
 		} finally {
 			a.build();
-			return Response.status(200).entity(a.JSON()).build();
 		}
+		return Response.status(200).entity(a.JSON()).build();
 	}
+
 	@DELETE
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteProduct(@PathParam("id") int id) {
 		JSONBuilder res = new JSONBuilder();
+
 		try {
 			Connection connection = RestAppStarter.dataSource.getConnection();
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			Integer queryresponse = statement.executeUpdate("DELETE FROM product WHERE id_product = " + id);
-			if (queryresponse==1) res.addProperty("message", "success"); else res.addProperty("message", "not found");
+			Integer queryResponse = statement.executeUpdate("DELETE FROM product WHERE id_product = " + id);
+			if (queryResponse == 1) res.addProperty("message", "Success");
+			else res.addProperty("message", "Not found");
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			res.addProperty("message", "sql exception");
+			res.addProperty("message", "SQL exception");
 		} finally {
 			res.build();
-			return Response.status(200).entity(res.JSON()).build();
 		}
+		return Response.status(200).entity(res.JSON()).build();
 	}
 }
 
