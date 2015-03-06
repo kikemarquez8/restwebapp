@@ -13,13 +13,19 @@
 
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="#">Insert a product</a></li>
-	<li><a href="#">Show </a></li>
-	<li><a href="#">Mensajes</a></li>
+	<li class="active">
+		<a href="#" onclick="changeTab(this)" id="insertTab">Insert a product</a>
+	</li>
+	<li>
+		<a href="#" onclick="changeTab(this)" id="showProductsTab">Show all products</a>
+	</li>
+	<li>
+		<a href="#" onclick="changeTab(this)" id="showSalesTab">Show all sales</a>
+	</li>
 </ul>
 
 
-<form role="form" style="width: 500px; margin-left: 15px">
+<form role="form" style="width: 500px; margin-left: 15px" id="insert">
 	<div class="form-group">
 		<label for="id">Product ID</label>
 		<input ng-model="id" class="form-control" type="number" id="id" ng-blur="testID(this)"
@@ -50,9 +56,23 @@
 		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
 	</div>
 </form>
+
+<form role="form" style="width: 500px; margin-left: 15px" id="getAll">
+	<div class="btn-toolbar">
+		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
+		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
+	</div>
+</form>
 <script>
-
-
+	var changeTab = function (source) {
+		var as = document.querySelectorAll("a");
+		for (var a in as) {
+			if (as.hasOwnProperty(a)) {
+				if (as[a].id !== source.id) as[a].parentElement.className = "";
+				else as[a].parentElement.className = "active";
+			}
+		}
+	};
 </script>
 </body>
 </html>
