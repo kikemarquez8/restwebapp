@@ -57,30 +57,30 @@
 	</div>
 </form>
 
-<form style="width:400px;margin-left: 15px" id="form2">
-	<div>
-		<label for="saleid">Sale ID</label>
-		<input ng-model="saleid" class="form-control" type="number" id="saleid"/>
-		<button type="submit" class="btn btn-primary" ng-click="getSales()">Get Sales</button>
-		<div class="table-responsive">
-			<table class="table">
-				<caption id="namesale"></caption>
-				<thead>
-					<tr>
-						<th>ID Product</th>
-						<th>Name Product</th>
-						<th>Quantity</th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-	</div>
-</form>
-
 <form role="form" style="width: 500px; margin-left: 15px; visibility: hidden" id="form1">
 	<div class="btn-toolbar">
 		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
 		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
+	</div>
+</form>
+
+<form role="form" style="width:400px; visibility: hidden; margin-left: 15px" id="form2">
+	<div>
+		<label for="saleid">Sale ID</label>
+		<input ng-model="saleid" class="form-control" type="number" id="saleid"/><br/>
+		<button type="submit" class="btn btn-primary" ng-click="getSales()">Get Sales</button>
+		<div class="table-responsive">
+			<table class="table">
+				<caption id="namesale" style="font-weight: bold"></caption>
+				<thead>
+				<tr>
+					<th>ID Product</th>
+					<th>Name Product</th>
+					<th>Quantity</th>
+				</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
 </form>
 
