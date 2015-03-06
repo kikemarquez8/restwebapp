@@ -15,7 +15,7 @@
 <ul class="nav nav-tabs">
 	<li class="active"><a href="#">Insert a product</a></li>
 	<li><a href="#">Show </a></li>
-	<li><a href="#">Mensajes</a></li>
+	<li><a href="#">Show</a></li>
 </ul>
 
 
@@ -48,6 +48,13 @@
 	<div class="btn-toolbar">
 		<button type="submit" class="btn btn-primary" ng-click="sendProduct()">Insert</button>
 		<button type="submit" class="btn btn-info" ng-click="clearField()">Clear</button>
+	</div>
+</form>
+<form>
+	<div>
+		<label for="saleid">Sale ID</label>
+		<input ng-model="saleid" class="form-control" type="number" id="saleid"/>
+		<button type="submit" class="btn btn-primary" ng-click="getSales()">Get Sales</button>
 	</div>
 </form>
 <script>
