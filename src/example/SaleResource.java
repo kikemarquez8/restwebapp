@@ -35,6 +35,7 @@ public class SaleResource {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM sale WHERE id_sale = " + id);
 			JSONBuilder rspnse = new JSONBuilder();
+			connection.close();
 			if (!resultSet.next()) {
 				rspnse.addProperty("message", "Not Found");
 				rspnse.build();
@@ -49,6 +50,7 @@ public class SaleResource {
 		}
 		return null;
 	}
+
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -70,6 +72,7 @@ public class SaleResource {
 			ResultSet ber = sta.executeQuery(querysale);
 			if(ber.next())
 				sale.setIdSale((Integer) ber.getObject(1));
+			con1.close();
 			// No need for id_sale (It should be sequence value) currval gets the id value of the inserted record
 			//Updating product quantities and sale product added
 			JSONObject update_pro = new JSONObject(info);
@@ -90,6 +93,7 @@ public class SaleResource {
 					System.out.print(query);
 					Statement saleproductstatement = con.createStatement();
 					saleproductstatement.executeUpdate(query);
+					con.close();
 				}
 			}
 			res.addProperty("message","succes");
@@ -105,8 +109,31 @@ public class SaleResource {
 		}finally {
 			return Response.status(200).entity(res.JSON()).build();
 		}
-
 	}
+
+	@GET
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllSales() {
+		JSONBuilder rspnse = new JSONBuilder();
+		try {
+			Connection connection = RestAppStarter.dataSource.getConnection();
+			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM sale");
+			if (!resultSet.next()) {
+				rspnse.addProperty("message", "Not Found");
+			} else {
+				rspnse.addProperty(resultSet, "sales");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rspnse.build();
+		}
+		return Response.status(200).entity(rspnse.JSON()).build();
+	}
+
 	@PUT
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -118,18 +145,17 @@ public class SaleResource {
 			Connection con = RestAppStarter.dataSource.getConnection();
 			Statement sta = con.createStatement();
 			JSONObject b = new JSONObject(info);
-			sale.setId((Integer) b.get("id_sale"));
+			sale.setId(Integer.parseInt(b.getString("id_sale")));
 			sale.setDate(date.parse((String) b.get("da_sale")));
-			sale.setIdClient((Integer) b.get("id_client"));
+			sale.setIdClient(Integer.parseInt(b.getString("id_client")));
 			sta.executeUpdate("UPDATE sale SET id_sale=" + sale.getId() + "," + "da_sale=" + "'" + sale.getDate() + "'" + "," + "id_client=" + sale.getIdClient() + " WHERE id_sale=" + sale.getId());
 			a.addProperty("message", "success");
 			con.close();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			a.addProperty("message", "bad formatted JSON");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			a.addProperty("message", "SQL exception");
+		} catch (JSONException | SQLException e) {
+			if(e instanceof  JSONException)
+				a.addProperty("message", "bad formatted JSON");
+			else
+				a.addProperty("message", "SQL exception");
 		} finally {
 			a.build();
 			return Response.status(200).entity(a.JSON()).build();

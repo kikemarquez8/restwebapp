@@ -129,8 +129,7 @@ public class JSONBuilder {
 				rs.next();
 			}
 			if (rows.length == 1) {
-				this.properties = rows[0].properties;
-				this.built = true;
+				this.addProperty(queryname,rows[0]);
 			} else {
 				this.addProperty(queryname, rows);
 			}

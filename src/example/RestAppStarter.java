@@ -23,7 +23,7 @@ public class RestAppStarter {
 		p.setUrl("jdbc:postgresql://localhost:5432/rest_db");
 		p.setDriverClassName("org.postgresql.Driver");
 		p.setUsername("postgres");
-		p.setPassword("masterkey");
+		p.setPassword("7413246");
 		p.setJmxEnabled(true);
 		p.setTestWhileIdle(false);
 		p.setTestOnBorrow(true);
