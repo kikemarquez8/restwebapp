@@ -65,13 +65,20 @@ angular.module('angularApp', [])
 				request.data.sp_product = document.getElementById('salePrice').value + "";
 				request.data.qt_product = document.getElementById('quantity').value + "";
 			};
-			$scope.getSales = function(){
-				var id = parseInt(document.getElementById('saleid'));
-				$http.get("http://localhost:9998/product/"+ id).
-					succes(function(data){
 
-					}).error(function(data){
+			$scope.getSales = function () {
+				var id = parseInt(document.getElementById('saleid'));
+				$http.get("http://localhost:9998/product/" + id).
+					succes(function (data) {
+
+					}).error(function (data) {
 						alert(data.message);
 					})
-			}
+			};
+
+			$scope.getProducts = function () {
+				$http.get("http://localhost:9998/product/all").success(function (data) {
+
+				}).error();
+			};
 		}]);
