@@ -31,6 +31,7 @@ angular.module('angularApp', [])
 				var id = document.querySelector("#id");
 				id.value = parseInt(id.value);
 				document.getElementById('id').style.backgroundColor = "white";
+				document.getElementById('id').style.color = "";
 
 				if (id.value !== null && id.value !== "") {
 					$http.get("http://localhost:9998/product/" + id.value).
@@ -51,7 +52,8 @@ angular.module('angularApp', [])
 			};
 
 			$scope.clearField = function () {
-				document.getElementById('id').style.backgroundColor = "white";
+				document.getElementById('id').style.backgroundColor = "";
+				document.getElementById('id').style.color = "";
 				document.getElementById('id').value = "";
 				document.getElementById('name').value = "";
 				document.getElementById('purchasePrice').value = "";
@@ -122,9 +124,9 @@ angular.module('angularApp', [])
 			};
 
 			$scope.clearTable = function () {
-				var caption =document.getElementById('namesale');
-				if(caption)
-					caption.innerHTML='';
+				var caption = document.getElementById('namesale');
+				if (caption)
+					caption.innerHTML = '';
 				var table = document.querySelectorAll("table")[0];
 				var rows = table.rows.length;
 
