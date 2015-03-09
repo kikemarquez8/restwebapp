@@ -36,7 +36,7 @@ public class ProductResource {
 		} finally {
 			rspnse.build();
 		}
-		return Response.status(200).entity(rspnse.JSON()).build();
+		return Response.ok(rspnse.JSON()).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@GET
@@ -59,7 +59,7 @@ public class ProductResource {
 		} finally {
 			rspnse.build();
 		}
-		return Response.status(200).entity(rspnse.JSON()).build();
+		return Response.ok(rspnse.JSON()).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 
@@ -93,7 +93,7 @@ public class ProductResource {
 				rs.build();
 			}
 		}
-		return Response.status(200).entity(rs.JSON()).build();
+		return Response.ok(rs.JSON()).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@PUT

@@ -86,11 +86,9 @@ public class SaleResource {
 					quantcode[0] = (Integer)  update_pro.getJSONArray(key).getInt(0);
 					quantcode[1] = (Integer)  update_pro.getJSONArray(key).getInt(1);
 					quantcode[2] = (Integer)  update_pro.getJSONArray(key).getInt(2);
-					System.out.print("AFTER ASSIGNMENTS");
 					Connection con = RestAppStarter.dataSource.getConnection();
 					String query = "INSERT INTO sale_product (id_product, id_sale, qt_product) VALUES("+quantcode[1]+","+ sale.getIdSale() +","+quantcode[2]+");";
 					query += "UPDATE product SET qt_product="+quantcode[0]+" WHERE id_product="+quantcode[1];
-					System.out.print(query);
 					Statement saleproductstatement = con.createStatement();
 					saleproductstatement.executeUpdate(query);
 					con.close();
@@ -137,7 +135,7 @@ public class SaleResource {
 		} finally {
 			rspnse.build();
 		}
-		return Response.status(200).entity(rspnse.JSON()).build();
+		return Response.ok(rspnse.JSON()).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@GET
